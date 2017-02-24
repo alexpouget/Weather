@@ -11,7 +11,6 @@ import Foundation
 class Weather {
     
     private var key = "57c21dc3607017fff0f4a5206f50aa63"
-    private var hourlyDatas:[[String:Any]]?
     
     struct Row {
         var time:String
@@ -42,8 +41,8 @@ class Weather {
             do{
                 let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
                 let hourlys = json?["hourly"] as! [String:Any]
-                self.hourlyDatas = hourlys["data"] as! [[String : Any]]?
-                for item in self.hourlyDatas!{
+                let hourlyDatas = hourlys["data"] as! [[String : Any]]?
+                for item in hourlyDatas!{
                     
                     let time = NSDate(timeIntervalSince1970: item["time"]! as! TimeInterval)
                     let timeFormated = self.formatDate(date: time,format: "HH:mm")
@@ -58,7 +57,6 @@ class Weather {
                 print("erreur de serialisation")
             }
            locked = false
-            
         }
         task.resume()
         
